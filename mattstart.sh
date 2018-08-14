@@ -8,12 +8,14 @@ then
 	echo "curl is installed, tight."
 else
 	echo "curl isn't installed, get that done!"
+  exit 1
 fi
 if command -v wget >/dev/null 2>&1
 then
 	echo "wget is installed, sweet."
 else
 	echo "whoa, wget isn't installed, get that done!"
+  exit 1
 fi
 # Set up zsh by cloning oh-my-zsh
 if [ -d "$HOME/.oh-my-zsh" ]
@@ -75,7 +77,25 @@ else
   ln -s $BASEDIR/.pathrc $HOME/.oh-my-zsh/custom/.pathrc
 fi
 
-# install pycharm to the .local/bin
+
+BINDIR=$HOME/.local/bin
 # install entr to the .local/bin
+if command -v entr >/dev/null 2>&1
+then
+  echo "huzzah, entr is installed"
+else
+  echo "installing entr locally"
+  mkdir  $BASEDIR/entr-source
+  wget -qO- "http://www.entrproject.org/code/entr-4.1.tar.gz" | tar xvz -C $BASEDIR/entr-source
+  pushd $BASEDIR/entr-source/eradman-entr*
+  ./configure
+  make test
+  PREFIX=$HOME/.local make install
+  popd
+  echo "cleaning up entr-source"
+  rm -rf $BASEDIR/entr-source
+fi
+
+# install pycharm to the .local/bin
 
 
