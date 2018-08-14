@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/bash
 echo "lets use some colors"
 alias echo='echo -e'
 RED='\033[0;31m'
