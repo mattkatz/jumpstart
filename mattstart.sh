@@ -72,6 +72,7 @@ then
   echo ".local/bin is on the path, whew!"
 else
   echo "let's add .local/bin to the path"
+  ln -s $BASEDIR/.pathrc $HOME/.oh-my-zsh/custom/.pathrc
 fi
 
 # install pycharm to the .local/bin
