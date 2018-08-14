@@ -26,7 +26,6 @@ else
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 	echo "oh-my-zsh should be installed now"
 fi
-# set up tmux by cloning oh-my-tmux
 # clone my vim config
 if [ -d "$HOME/.vim" ]
 then
@@ -49,6 +48,15 @@ fi
 
 echo "make sure our gitignore is used by git!"
 git config --global core.excludesfile $HOME/.gitignore
+
+# set up tmux by cloning oh-my-tmux
+if command -v tmux >/dev/null 2>&1
+then
+  echo "Whoot, tmux is installed"
+else
+  echo "Oh NO, please install tmux. Try:"
+  echo "sudo apt-get install tmux"
+fi
 
 
 # gotta have some local user binaries
@@ -95,6 +103,7 @@ else
   echo "cleaning up entr-source"
   rm -rf $BASEDIR/entr-source
 fi
+
 
 # install pycharm to the .local/bin
 
