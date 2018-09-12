@@ -120,7 +120,28 @@ else
   rm -rf $BASEDIR/entr-source
 fi
 
+# install git-extras
+if command -v git-extras >/dev/null 2>&1
+then
+  echo -e "${GREEN}woop, git extras is installed${NC}"
+else
+  echo -e "installing git-extras locally"
+  GES=$BASEDIR/git-extras-source
+  mkdir $GES
+  pushd $GES
+  git clone https://github.com/tj/git-extras.git
+  pushd git-extras
+  git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+  make install PREFIX=$BINDIR
+  popd
+  popd
+  echo -e "cleaning up git-extras source"
+  rm -rf $GES
+fi
+
+
 
 # install pycharm to the .local/bin
+
 
 
