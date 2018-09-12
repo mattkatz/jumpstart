@@ -132,7 +132,7 @@ else
   git clone https://github.com/tj/git-extras.git
   pushd git-extras
   git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
-  make install PREFIX=$BINDIR
+  make install PREFIX=$HOME/.local
   popd
   popd
   echo -e "cleaning up git-extras source"
