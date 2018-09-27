@@ -182,7 +182,20 @@ fi
 
 
 
-# install pycharm to the .local/bin
+# install pycharm to the bin
+if command -v charm >/dev/null 2>&1
+then
+  echo -e "${GREEN}Noice, pycharm is installed${NC}"
+else
+  echo -e "installing pycharm"
+  wget https://download.jetbrains.com/python/pycharm-community-2018.2.4.tar.gz
+  tar -xzf pycharm-community-2018.2.4.tar.gz --directory ~/.local/bin/
+  rm pycharm-community-2018.2.4.tar.gz
+  ln ~/.local/bin/pycharm-community-2018.2.4 ~/.local/bin/charm
+fi
+
+
+
 
 
 
