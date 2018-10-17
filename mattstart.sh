@@ -116,6 +116,8 @@ fi
 
 if [ -z $EXPORTPATH ]
 then
+  echo -e "${GREEN}all paths were set. nice one."${NC} 
+else
   echo "export path" >> ~/.oh-my-zsh/custom/paths.zsh
   echo "export paths and reload the .zshrc"
   source ~/.oh-my-zsh/custom/paths.zsh
@@ -166,6 +168,14 @@ then
 else
   echo -e "installing tmuxinator locally"
   gem install --user-install tmuxinator
+fi
+
+# do we have VIM set as editor?
+if [ -z $EDIITOR ] 
+then
+  echo "Need to set vim as the editor"
+else
+  echo -e "${GREEN}ready to vim for all files${NC}"
 fi
 
 
