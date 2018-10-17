@@ -1,4 +1,11 @@
 
+1.0.2 / 2018-10-17
+==================
+
+  * add ruby gems to path and tmuxinator
+  * Fix dupes in history
+  * Use the pkg mgr on Ubuntu to install appropriate stuff
+
 1.0.1 / 2018-09-12
 ==================
 

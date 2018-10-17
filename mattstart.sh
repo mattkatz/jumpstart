@@ -8,6 +8,8 @@ BASEDIR=$(dirname "$0")
 echo -e "$GREEN Running from $BASEDIR $NC"
 
 # make sure to install python2, python3, vim, git, tmux, pipenv, wget, curl
+# if none of what we want is specified, we can exit 
+# and kick something off for the appropriate package manager
 if command -v curl >/dev/null 2>&1
 then
 	echo -e "${GREEN}curl is installed, tight.${NC}"
@@ -98,7 +100,25 @@ then
   echo -e "${GREEN}.local/bin is on the path, whew!${NC}"
 else
   echo -e "let's add .local/bin to the path"
-  ln -s $BASEDIR/.pathrc $HOME/.oh-my-zsh/custom/.pathrc
+  echo "path+=~/.local/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
+  EXPORTPATH=1
+fi
+
+# is the local ruby gem directory on the path?
+if echo -e $PATH | grep -q .gem
+then
+  echo -e "${GREEN}local rubygems is on path!"${NC} 
+else
+  echo -e "adding local rubygems to the path"
+  echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
+  EXPORTPATH=1
+fi
+
+if [ -z $EXPORTPATH ]
+then
+  echo "export path" >> ~/.oh-my-zsh/custom/paths.zsh
+  echo "export paths and reload the .zshrc"
+  source ~/.oh-my-zsh/custom/paths.zsh
 fi
 
 
@@ -137,6 +157,15 @@ else
   popd
   echo -e "cleaning up git-extras source"
   rm -rf $GES
+fi
+
+# install tmuxinator
+if command -v tmuxinator >/dev/null 2>&1
+then
+  echo -e "${GREEN}ayyyy, we have tmuxinator${NC}"
+else
+  echo -e "installing tmuxinator locally"
+  gem install --user-install tmuxinator
 fi
 
 
