@@ -17,3 +17,4 @@ git changelog --tag 1.0.X
 git commit add History.md
 git commit --amend
 git tag 1.0.X
+git push --tags
