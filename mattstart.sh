@@ -171,9 +171,11 @@ else
 fi
 
 # do we have VIM set as editor?
-if [ -z $EDIITOR ] 
+if [ -z "$EDITOR" ] 
 then
   echo "Need to set vim as the editor"
+  echo "export EDITOR='vim'" >> ~/.oh-my-zsh/custom/settings.zsh
+  source ~/.oh-my-zsh/custom/settings.zsh
 else
   echo -e "${GREEN}ready to vim for all files${NC}"
 fi
