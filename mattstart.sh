@@ -191,7 +191,7 @@ else
   wget https://download.jetbrains.com/python/pycharm-community-2018.2.4.tar.gz
   tar -xzf pycharm-community-2018.2.4.tar.gz --directory ~/.local/bin/
   rm pycharm-community-2018.2.4.tar.gz
-  ln ~/.local/bin/pycharm-community-2018.2.4 ~/.local/bin/charm
+  ln ~/.local/bin/pycharm-community-2018.2.4/bin/pycharm.sh ~/.local/bin/pycharm
 fi
 
 

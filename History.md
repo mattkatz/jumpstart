@@ -1,4 +1,12 @@
 
+1.0.4 / 2018-10-25 
+==================
+
+ * fix link path for pycharm.
+ * properly link vimrc
+ * install pycharm
+ * push with tags
+
 1.0.3 / 2018-10-17
 ==================
 
