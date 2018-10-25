@@ -39,7 +39,7 @@ then
 	echo -e "${GREEN}vim config directory already exists${NC}"
 else
 	echo -e "Cloning my vim config"
-	git clone https://github.com/mattkatz/.vim
+	git clone https://github.com/mattkatz/.vim ~/.vim
 	ln -s ~/.vim/.vimrc ~/.vimrc
 	echo -e "plugins should install on next launch of vim"
 fi
