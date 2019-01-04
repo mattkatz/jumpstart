@@ -183,7 +183,7 @@ fi
 
 
 # install pycharm to the bin
-if command -v charm >/dev/null 2>&1
+if command -v pycharm >/dev/null 2>&1
 then
   echo -e "${GREEN}Noice, pycharm is installed${NC}"
 else
@@ -194,8 +194,37 @@ else
   ln ~/.local/bin/pycharm-community-2018.2.4/bin/pycharm.sh ~/.local/bin/pycharm
 fi
 
+# install z the jump around command
+if ! type 'z' >/dev/null 2>&1
+then
+  echo -e "${GREEN}Z is installed, jump around${NC}"
+else
+  echo -e "installing z to jump around"
+  git clone https://github.com/rupa/z
+  cp z/z.sh $BINDIR/.
+  echo ". ~/.local/bin/z.sh" > ~/.oh-my-zsh/custom/z.zsh
+  rm -rf z
+fi
 
+# install Rust
+if command -v cargo >/dev/null 2>&1
+then
+  echo -e "${GREEN}This system is rusty${NC}"
+else
+  echo -e "Installing rust"
+  curl https://sh.rustup.rs -sSf | sh
+  source $HOME/.cargo/env
+fi
 
+# install bat, the cat with wings
+if comand -v bat >/dev/null 2>&1
+then
+  echo -e "${GREEN}🦇BAT EVERYWHERE🦇${NC}"
+else
+  echo -e "instaling bat"
+  cargo install bat
+fi
 
-
+# TODO: install fzf and use that as the fuzzy finder in vim instead of ctrlp
+# TODO: replace syntastic with ALE 
 
