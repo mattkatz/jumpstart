@@ -174,16 +174,6 @@ else
   rm -rf z
 fi
 
-
-# install tmuxinator
-if command -v tmuxinator >/dev/null 2>&1
-then
-  echo -e "${GREEN}ayyyy, we have tmuxinator${NC}"
-else
-  echo -e "installing tmuxinator locally"
-  gem install --user-install tmuxinator
-fi
-
 # do we have VIM set as editor?
 if [ -z "$EDITOR" ] 
 then
