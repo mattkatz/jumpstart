@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/zsh -i
 echo -e "lets use some colors"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -33,6 +33,7 @@ else
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 	echo -e "oh-my-zsh should be installed now"
 fi
+
 # clone my vim config
 if [ -d "$HOME/.vim" ]
 then
