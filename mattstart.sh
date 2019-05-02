@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 echo -e "lets use some colors"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -161,6 +161,20 @@ else
   rm -rf $GES
 fi
 
+# install z the jump around command
+# if z is installed, this should be an alias to _z
+if type z
+then
+  echo -e "${GREEN}Z is installed, jump around${NC}"
+else
+  echo -e "installing z to jump around"
+  git clone https://github.com/rupa/z
+  cp z/z.sh $BINDIR/.
+  echo ". ~/.local/bin/z.sh" > ~/.oh-my-zsh/custom/z.zsh
+  rm -rf z
+fi
+
+
 # install tmuxinator
 if command -v tmuxinator >/dev/null 2>&1
 then
@@ -181,7 +195,6 @@ else
 fi
 
 
-
 # install pycharm to the bin
 if command -v pycharm >/dev/null 2>&1
 then
@@ -192,18 +205,6 @@ else
   tar -xzf pycharm-community-2018.2.4.tar.gz --directory ~/.local/bin/
   rm pycharm-community-2018.2.4.tar.gz
   ln ~/.local/bin/pycharm-community-2018.2.4/bin/pycharm.sh ~/.local/bin/pycharm
-fi
-
-# install z the jump around command
-if ! type 'z' >/dev/null 2>&1
-then
-  echo -e "${GREEN}Z is installed, jump around${NC}"
-else
-  echo -e "installing z to jump around"
-  git clone https://github.com/rupa/z
-  cp z/z.sh $BINDIR/.
-  echo ". ~/.local/bin/z.sh" > ~/.oh-my-zsh/custom/z.zsh
-  rm -rf z
 fi
 
 # install Rust
