@@ -75,12 +75,29 @@ else
   ln -s -f .tmux/.tmux.conf
   cp .tmux/.tmux.conf.local .
   echo -e "adding some more options to the local tmux.conf"
-  echo -e "set -g mode-mouse on" >> ~/tmux.conf.local
-  echo -e "set -g mouse-resize-pane on" >> ~/tmux.conf.local
-  echo -e "set -g mouse-select-pane on" >> ~/tmux.conf.local
-  echo -e "set -g mouse-select-window on" >> ~/tmux.conf.local
+  echo -e "set -g mode-mouse on" >> ~/.tmux.conf.local
+  echo -e "set -g mouse-resize-pane on" >> ~/.tmux.conf.local
+  echo -e "set -g mouse-select-pane on" >> ~/.tmux.conf.local
+  echo -e "set -g mouse-select-window on" >> ~/.tmux.conf.local
   echo -e "${GREEN}Installed oh-my-tmux!${NC}"
 fi
+
+# install tmux plugin manager
+if [ -d "~/.tmux/plugins/tpm" ]
+then 
+  echo -e "${GREEN}Excellent, oh-my-tmux is already setup${NC}"
+else
+  echo -e "Installing tpm"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  echo -e "# List of plugins" >> ~/tmux.conf.local
+  echo -e "set -g @plugin 'tmux-plugins/tpm'" >> ~/.tmux.conf.local
+  echo -e "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf.local
+  echo -e "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf.local
+  echo -e "# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)" >> ~/.tmux.conf.local
+  echo -e "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf.local
+  echo -e "${GREEN}Installed tpm! type ctrl-a I to install your plugins${NC}"
+fi
+
 
 
 # gotta have some local user binaries
@@ -169,7 +186,7 @@ fi
 
 # install z the jump around command
 # if z is installed, this should be an alias to _z
-if type z
+if type z >/dev/null 2>&1
 then
   echo -e "${GREEN}Z is installed, jump around${NC}"
 else
@@ -214,7 +231,7 @@ else
 fi
 
 # install bat, the cat with wings
-if comand -v bat >/dev/null 2>&1
+if type bat >/dev/null 2>&1
 then
   echo -e "${GREEN}🦇BAT EVERYWHERE🦇${NC}"
 else
