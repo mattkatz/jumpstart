@@ -74,6 +74,11 @@ else
   git clone https://github.com/gpakosz/.tmux.git
   ln -s -f .tmux/.tmux.conf
   cp .tmux/.tmux.conf.local .
+  echo -e "adding some more options to the local tmux.conf"
+  echo -e "set -g mode-mouse on" >> ~/tmux.conf.local
+  echo -e "set -g mouse-resize-pane on" >> ~/tmux.conf.local
+  echo -e "set -g mouse-select-pane on" >> ~/tmux.conf.local
+  echo -e "set -g mouse-select-window on" >> ~/tmux.conf.local
   echo -e "${GREEN}Installed oh-my-tmux!${NC}"
 fi
 
