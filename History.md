@@ -1,4 +1,14 @@
 
+1.0.6 / 2019-10-07
+==================
+
+  * renamed from mattstart to jumpstart
+  * tmux plugin manager and continuum
+  * auto set old mouse mode options for tmux
+  * fix the check for z
+  * remove tmuxinator to replace later with tmuxp
+  * keep z from installing every run
+
 1.0.5 / 2019-01-03
 ==================
 

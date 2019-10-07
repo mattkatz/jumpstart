@@ -3,9 +3,9 @@ This is just my personal get started with a new machine set of scripts
 First make sure you've got the prereqs by running the prereqs script
 That uses the package manager for your OS
 
-Then run ./mattstart.sh which should work on osx and linux
+Then run ./jumpstart.sh which should work on osx and linux
 
-mattstart should be idempotent so it's ok to run all the damn time.
+jumpstart should be idempotent so it's ok to run all the damn time.
 
 Changelog note!
 
