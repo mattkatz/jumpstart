@@ -94,9 +94,9 @@ else
 fi
 
 # install tmux plugin manager
-if [ -d "~/.tmux/plugins/tpm" ]
+if [ -d ~/.tmux/plugins/tpm ]
 then 
-  echo -e "${GREEN}Excellent, oh-my-tmux is already setup${NC}"
+  echo -e "${GREEN}Hexcellent, tmux plugin manager is already setup${NC}"
 else
   echo -e "Installing tpm"
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
