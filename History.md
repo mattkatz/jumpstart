@@ -1,4 +1,11 @@
 
+1.0.7 / 2020-03-20
+==================
+
+  * fix readme markdown
+  * fix tmux plugin manager test
+  * add gitignore.io integration
+
 1.0.6 / 2019-10-07
 ==================
 
