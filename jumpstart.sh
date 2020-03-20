@@ -57,6 +57,17 @@ fi
 echo -e "making sure our gitignore is used by git!"
 git config --global core.excludesfile $HOME/.gitignore
 
+if grep -q "gitignore.io" ~/.oh-my-zsh/custom/functions.zsh
+then
+  echo -e "${GREEN}Oh, nice. There's a gi function defined for automatic gitignore file creation"
+  echo -e "gi vim,python >> .gitignore${NC}"
+else
+  echo -e "set up a gitignore function gi so that we can do project gitignore from cli"
+  echo -e "gi vim,python >> .gitignore"
+  echo "function gi() { curl -sLw "\n" https://www.gitignore.io/api/\$@ ;}" >> \
+    ~/.oh-my-zsh/custom/functions.zsh && source ~/.zshrc
+fi
+
 # set up tmux by cloning oh-my-tmux
 if command -v tmux >/dev/null 2>&1
 then
