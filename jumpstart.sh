@@ -250,6 +250,37 @@ else
   cargo install bat
 fi
 
+# check to see if we have node and npm installed
+if npm -v >/dev/null 2>&1
+then
+  echo -e "${GREEN}Node and npm are installed!${NC}"
+  echo -e "${GREEN}Let's make them safe${NC}"
+  # set up local non sudo npm package installs
+  mkdir -p $HOME/.npm-packages
+  NPMZSH=~/.oh-my-zsh/custom/npm.zsh
+  echo "#THIS FILE IS RECREATED EVERY TIME JUMPSTART GETS RUN #" > $NPMZSH
+  echo NPM_PACKAGES="$HOME/.npm-packages" >> $NPMZSH
+  echo NODE_PATH=\"\$NPM_PACKAGES/lib/node_modules:\$NODE_PATH\" >> $NPMZSH
+  if grep $NPM_PACKAGES ~/.npmrc >/dev/null 2>&1
+  then
+    echo -e "${GREEN}NPM_PACKAGES is in your .npmrc!${NC}"
+  else
+    echo -e "Adding NPM_PACKAGES to your ~/.npmrc"
+    echo prefix=$HOME/.npm-packages >> ~/.npmrc
+  fi
+  if grep $NPM_PACKAGES ~/.oh-my-zsh/custom/paths.zsh >/dev/null 2>&1
+  then
+    echo -e "${GREEN}NPM_PACKAGES/bin is in your paths!${NC}"
+  else
+    echo -e "Adding NPM_PACKAGES/bin to your paths"
+    echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
+  fi
+else
+  echo -e "You need to install node and npm"
+  echo -e "sudo apt install nodejs; sudo apt install npm"
+fi
+
+
 # TODO: install fzf and use that as the fuzzy finder in vim instead of ctrlp
 # TODO: replace syntastic with ALE 
 
