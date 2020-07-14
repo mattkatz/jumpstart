@@ -5,6 +5,10 @@ tags
 *.scratch.*
 # ignore python compile files
 *.pyc
+
+# ignore mypy files
+.mypy_cache
+
 # Compiled source #
 ###################
 *.com
