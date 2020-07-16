@@ -4,30 +4,46 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
+color(){
+  if (( $# < 2 ))
+  then
+    echo "need to call color() with a color and text";
+  else
+    echo -e "${2}$1${NC}";
+  fi
+}
+green(){
+    color $1 $GREEN
+}
+red (){
+    color $1 $RED
+}
+
 BASEDIR=$(dirname "$0")
-echo -e "$GREEN Running from $BASEDIR $NC"
+green "running from $BASEDIR"
+# echo -e "$GREEN Running from $BASEDIR $NC"
 
 # make sure to install python2, python3, vim, git, tmux, pipenv, wget, curl
 # if none of what we want is specified, we can exit 
 # and kick something off for the appropriate package manager
 if command -v curl >/dev/null 2>&1
 then
-	echo -e "${GREEN}curl is installed, tight.${NC}"
+  green "curl is installed, tight."
 else
-	echo -e "${RED}curl isn't installed, get that done!${NC}"
+  red "curl isn't installed, get that done!"
   exit 1
 fi
 if command -v wget >/dev/null 2>&1
 then
-	echo -e "${GREEN}wget is installed, sweet.${NC}"
+  green "wget is installed, sweet."
 else
-	echo -e "${RED}whoa, wget isn't installed, get that done!${NC}"
+  red "whoa, wget isn't installed, get that done!"
   exit 1
 fi
 # Set up zsh by cloning oh-my-zsh
 if [ -d "$HOME/.oh-my-zsh" ]
 then
-	echo -e "${GREEN}oh-my-zsh already exists!${NC}"
+  green "oh-my-zsh already exists!"
 else
 	echo -e "installing oh-my-zsh"
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -37,7 +53,7 @@ fi
 # clone my vim config
 if [ -d "$HOME/.vim" ]
 then
-	echo -e "${GREEN}vim config directory already exists${NC}"
+  green "vim config directory already exists"
 else
 	echo -e "Cloning my vim config"
 	git clone https://github.com/mattkatz/.vim ~/.vim
@@ -48,19 +64,19 @@ fi
 # add our gitignore
 if [ -e "$HOME/.gitignore" ]
 then
-  echo -e "${GREEN}Good, we have a user .gitgnore file${NC}"
+  green "Good, we have a user .gitgnore file"
 else
   echo -e "link our gitignore file in"
   ln -s $BASEDIR/.gitignore ~/.gitignore
 fi
 
-echo -e "making sure our gitignore is used by git!"
+green  "making sure our gitignore is used by git!"
 git config --global core.excludesfile $HOME/.gitignore
 
 if grep -q "gitignore.io" ~/.oh-my-zsh/custom/functions.zsh
 then
-  echo -e "${GREEN}Oh, nice. There's a gi function defined for automatic gitignore file creation"
-  echo -e "gi vim,python >> .gitignore${NC}"
+  green "Oh, nice. There's a gi function defined for automatic gitignore file creation"
+  green "gi vim,python >> .gitignore"
 else
   echo -e "set up a gitignore function gi so that we can do project gitignore from cli"
   echo -e "gi vim,python >> .gitignore"
@@ -71,14 +87,14 @@ fi
 # set up tmux by cloning oh-my-tmux
 if command -v tmux >/dev/null 2>&1
 then
-  echo -e "${GREEN}Whoot, tmux is installed${NC}"
+  green "Whoot, tmux is installed"
 else
-  echo -e "${RED}Oh NO, please install tmux. Try:${NC}"
-  echo -e "${RED}sudo apt-get install tmux${NC}"
+  red "Oh NO, please install tmux. Try:"
+  red "sudo apt-get install tmux"
 fi
 if [ -d "$HOME/.tmux" ]
 then
-  echo -e "${GREEN}Excellent, oh-my-tmux is already setup${NC}"
+  green "Excellent, oh-my-tmux is already setup"
 else
   echo -e "Installing oh-my-tmux"
   pushd $HOME
@@ -90,13 +106,13 @@ else
   echo -e "set -g mouse-resize-pane on" >> ~/.tmux.conf.local
   echo -e "set -g mouse-select-pane on" >> ~/.tmux.conf.local
   echo -e "set -g mouse-select-window on" >> ~/.tmux.conf.local
-  echo -e "${GREEN}Installed oh-my-tmux!${NC}"
+  green "Installed oh-my-tmux!"
 fi
 
 # install tmux plugin manager
 if [ -d ~/.tmux/plugins/tpm ]
 then 
-  echo -e "${GREEN}Hexcellent, tmux plugin manager is already setup${NC}"
+  green "Hexcellent, tmux plugin manager is already setup"
 else
   echo -e "Installing tpm"
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -106,7 +122,7 @@ else
   echo -e "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf.local
   echo -e "# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)" >> ~/.tmux.conf.local
   echo -e "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf.local
-  echo -e "${GREEN}Installed tpm! type ctrl-a I to install your plugins${NC}"
+  green "Installed tpm! type ctrl-a I to install your plugins"
 fi
 
 
@@ -114,7 +130,7 @@ fi
 # gotta have some local user binaries
 if [ -d "$HOME/.local" ]
 then 
-  echo -e "${GREEN}.local exists"${NC} 
+  green ".local exists"
 else
   echo -e "making .local"
   mkdir ~/.local
@@ -122,7 +138,7 @@ fi
 
 if [ -d "$HOME/.local/bin" ]
 then 
-  echo -e "${GREEN}.local/bin exists"${NC} 
+  green ".local/bin exists"
 else
   echo -e "making .local/bin"
   mkdir ~/.local/bin
@@ -131,7 +147,7 @@ fi
 # add the .local/bin to the path
 if echo -e $PATH | grep -q .local/bin
 then
-  echo -e "${GREEN}.local/bin is on the path, whew!${NC}"
+  green ".local/bin is on the path, whew!"
 else
   echo -e "let's add .local/bin to the path"
   echo "path+=~/.local/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
@@ -142,7 +158,7 @@ fi
 # is the local ruby gem directory on the path?
 if echo -e $PATH | grep -q .gem
 then
-  echo -e "${GREEN}local rubygems is on path!"${NC} 
+  green "local rubygems is on path!"
 else
   echo -e "adding local rubygems to the path"
   echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
@@ -151,7 +167,7 @@ fi
 # the default way to install gems is to root with SUDO! That's not secure
 if echo -e $GEM_HOME | grep -q $HOME;
 then
-  echo -e "${GREEN}ruby gems home is safely set to the user directory"{$NC}
+  green "ruby gems home is safely set to the user directory"
 else
   echo -e "setting up safe ruby gem user installation"
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
@@ -159,7 +175,7 @@ fi
 
 if [ -z $EXPORTPATH ]
 then
-  echo -e "${GREEN}all paths were set. nice one."${NC} 
+  green "all paths were set. nice one."
 else
   echo "export path" >> ~/.oh-my-zsh/custom/paths.zsh
   echo "export paths and reload the .zshrc"
@@ -171,7 +187,7 @@ BINDIR=$HOME/.local/bin
 # install entr to the .local/bin
 if command -v entr >/dev/null 2>&1
 then
-  echo -e "${GREEN}huzzah, entr is installed${NC}"
+  green "huzzah, entr is installed"
 else
   echo -e "installing entr locally"
   mkdir  $BASEDIR/entr-source
@@ -188,7 +204,7 @@ fi
 # install git-extras
 if command -v git-extras >/dev/null 2>&1
 then
-  echo -e "${GREEN}woop, git extras is installed${NC}"
+  green "woop, git extras is installed"
 else
   echo -e "installing git-extras locally"
   GES=$BASEDIR/git-extras-source
@@ -208,7 +224,7 @@ fi
 # if z is installed, this should be an alias to _z
 if type z >/dev/null 2>&1
 then
-  echo -e "${GREEN}Z is installed, jump around${NC}"
+  green "Z is installed, jump around"
 else
   echo -e "installing z to jump around"
   git clone https://github.com/rupa/z
@@ -224,14 +240,14 @@ then
   echo "export EDITOR='vim'" >> ~/.oh-my-zsh/custom/settings.zsh
   source ~/.oh-my-zsh/custom/settings.zsh
 else
-  echo -e "${GREEN}ready to vim for all files${NC}"
+  green "ready to vim for all files"
 fi
 
 
 # install pycharm to the bin
 if command -v pycharm >/dev/null 2>&1
 then
-  echo -e "${GREEN}Noice, pycharm is installed${NC}"
+  green "Noice, pycharm is installed"
 else
   echo -e "installing pycharm"
   wget https://download.jetbrains.com/python/pycharm-community-2018.2.4.tar.gz
@@ -243,7 +259,7 @@ fi
 # install Rust
 if command -v cargo >/dev/null 2>&1
 then
-  echo -e "${GREEN}This system is rusty${NC}"
+  green "This system is rusty"
 else
   echo -e "Installing rust"
   curl https://sh.rustup.rs -sSf | sh
@@ -253,7 +269,7 @@ fi
 # install bat, the cat with wings
 if type bat >/dev/null 2>&1
 then
-  echo -e "${GREEN}🦇BAT EVERYWHERE🦇${NC}"
+  green "🦇BAT EVERYWHERE🦇"
 else
   echo -e "instaling bat"
   cargo install bat
@@ -262,8 +278,8 @@ fi
 # check to see if we have node and npm installed
 if npm -v >/dev/null 2>&1
 then
-  echo -e "${GREEN}Node and npm are installed!${NC}"
-  echo -e "${GREEN}Let's make them safe${NC}"
+  green "Node and npm are installed!"
+  green "Let's make them safe"
   # set up local non sudo npm package installs
   mkdir -p $HOME/.npm-packages
   NPMZSH=~/.oh-my-zsh/custom/npm.zsh
@@ -272,14 +288,14 @@ then
   echo NODE_PATH=\"\$NPM_PACKAGES/lib/node_modules:\$NODE_PATH\" >> $NPMZSH
   if grep $NPM_PACKAGES ~/.npmrc >/dev/null 2>&1
   then
-    echo -e "${GREEN}NPM_PACKAGES is in your .npmrc!${NC}"
+    green "NPM_PACKAGES is in your .npmrc!"
   else
     echo -e "Adding NPM_PACKAGES to your ~/.npmrc"
     echo prefix=$HOME/.npm-packages >> ~/.npmrc
   fi
   if grep $NPM_PACKAGES ~/.oh-my-zsh/custom/paths.zsh >/dev/null 2>&1
   then
-    echo -e "${GREEN}NPM_PACKAGES/bin is in your paths!${NC}"
+    green "NPM_PACKAGES/bin is in your paths!"
   else
     echo -e "Adding NPM_PACKAGES/bin to your paths"
     echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
