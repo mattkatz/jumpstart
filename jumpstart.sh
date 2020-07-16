@@ -149,10 +149,11 @@ else
   EXPORTPATH=1
 fi
 # the default way to install gems is to root with SUDO! That's not secure
-if echo -e $GEM_HOME | grep -q $HOME
+if echo -e $GEM_HOME | grep -q $HOME;
 then
   echo -e "${GREEN}ruby gems home is safely set to the user directory"{$NC}
 else
+  echo -e "setting up safe ruby gem user installation"
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
 
