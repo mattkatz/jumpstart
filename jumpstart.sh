@@ -138,6 +138,7 @@ else
   EXPORTPATH=1
 fi
 
+# RUBY STUFF
 # is the local ruby gem directory on the path?
 if echo -e $PATH | grep -q .gem
 then
@@ -146,6 +147,13 @@ else
   echo -e "adding local rubygems to the path"
   echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
+fi
+# the default way to install gems is to root with SUDO! That's not secure
+if echo -e $GEM_HOME | grep -q $HOME
+then
+  echo -e "${GREEN}ruby gems home is safely set to the user directory"{$NC}
+else
+  echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
 
 if [ -z $EXPORTPATH ]
