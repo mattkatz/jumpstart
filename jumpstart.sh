@@ -45,9 +45,9 @@ if [ -d "$HOME/.oh-my-zsh" ]
 then
   green "oh-my-zsh already exists!"
 else
-	echo -e "installing oh-my-zsh"
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-	echo -e "oh-my-zsh should be installed now"
+  echo -e "installing oh-my-zsh"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  echo -e "oh-my-zsh should be installed now"
 fi
 
 # clone my vim config
@@ -55,10 +55,10 @@ if [ -d "$HOME/.vim" ]
 then
   green "vim config directory already exists"
 else
-	echo -e "Cloning my vim config"
-	git clone https://github.com/mattkatz/.vim ~/.vim
-	ln -s ~/.vim/.vimrc ~/.vimrc
-	echo -e "plugins should install on next launch of vim"
+  echo -e "Cloning my vim config"
+  git clone https://github.com/mattkatz/.vim ~/.vim
+  ln -s ~/.vim/.vimrc ~/.vimrc
+  echo -e "plugins should install on next launch of vim"
 fi
 
 # add our gitignore
