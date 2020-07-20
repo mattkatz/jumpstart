@@ -175,22 +175,22 @@ else
 fi
 
 # add the .local/bin to the path
-if echo -e $PATH | grep -q .local/bin
+if echo -e $PATH | grep -q ~/.local/bin
 then
   green ".local/bin is on the path, whew!"
 else
-  echo -e "let's add .local/bin to the path"
+  red "let's add .local/bin to the path"
   echo "path+=~/.local/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
 
 # RUBY STUFF
 # is the local ruby gem directory on the path?
-if echo -e $PATH | grep -q .gem
+if echo -e $PATH | grep -q ~/.gem
 then
   green "local rubygems is on path!"
 else
-  echo -e "adding local rubygems to the path"
+  red "adding local rubygems to the path"
   echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
