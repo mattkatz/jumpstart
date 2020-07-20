@@ -21,7 +21,7 @@ red (){
 
 BASEDIR=$(dirname "$0")
 green "running from $BASEDIR"
-# echo -e "$GREEN Running from $BASEDIR $NC"
+
 
 # make sure to install python2, python3, vim, git, tmux, pipenv, wget, curl
 # if none of what we want is specified, we can exit 
@@ -33,12 +33,35 @@ else
   red "curl isn't installed, get that done!"
   exit 1
 fi
+
+#What OS are we on?
+if [[ "$OSTYPE" == "linux-gnu"* ]]
+then
+  # we'll need to do some apt-get installs and such, eh?
+elif [[ "$OSTYPE" == "darwin"* ]]
+then
+  # if on OSX we'll need to install homebrew
+  if command -v brew >/dev/null 2>&1
+  then
+    green "🍻 homebrew is installed"
+  else
+    red "time to install homebrew 🍺"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  fi
+fi
+
 if command -v wget >/dev/null 2>&1
 then
   green "wget is installed, sweet."
 else
-  red "whoa, wget isn't installed, get that done!"
-  exit 1
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    red "need to install wget, let's brew that"
+    brew install wget
+  else
+    red "whoa, wget isn't installed, get that done!"
+    exit 1
+  fi
 fi
 # Set up zsh by cloning oh-my-zsh
 if [ -d "$HOME/.oh-my-zsh" ]
@@ -301,8 +324,15 @@ then
     echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
   fi
 else
-  echo -e "You need to install node and npm"
-  echo -e "sudo apt install nodejs; sudo apt install npm"
+  red "need to install nodejs and npm"
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    brew install nodejs
+    brew install npm
+    red "rerun jumpstart till it all turns green!"
+  else
+    red "sudo apt install nodejs; sudo apt install npm"
+  fi
 fi
 
 
