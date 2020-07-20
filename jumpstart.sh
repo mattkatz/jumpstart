@@ -19,7 +19,7 @@ red (){
     color $1 $RED
 }
 
-BASEDIR=$(dirname "$0")
+BASEDIR=${0:a:h}
 green "running from $BASEDIR"
 
 
@@ -89,7 +89,7 @@ if [ -e "$HOME/.gitignore" ]
 then
   green "Good, we have a user .gitgnore file"
 else
-  echo -e "link our gitignore file in"
+  red "need to link our gitignore file in"
   ln -s $BASEDIR/.gitignore ~/.gitignore
 fi
 
@@ -112,8 +112,15 @@ if command -v tmux >/dev/null 2>&1
 then
   green "Whoot, tmux is installed"
 else
-  red "Oh NO, please install tmux. Try:"
-  red "sudo apt-get install tmux"
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    red "No tmux?! lets brew that up"
+    brew install tmux
+    red "run jumpstart till it all goes green!"
+  else
+    red "Oh NO, please install tmux. Try:"
+    red "sudo apt-get install tmux"
+  fi
 fi
 if [ -d "$HOME/.tmux" ]
 then
