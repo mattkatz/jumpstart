@@ -293,7 +293,18 @@ then
 else
   echo -e "Installing rust"
   curl https://sh.rustup.rs -sSf | sh
-  source $HOME/.cargo/env
+fi
+
+# add the .cargo/bin to the path
+if echo -e $PATH | grep -q ~/.cargo/bin
+then
+  green ".cargo/bin is on the path, whew!"
+else
+  red "let's add .cargo/bin to the path"
+  echo "path+=~/.cargo/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
+  red "rerun jumpstart till everything is green"
+  red "and try launching a new zsh"
+  exit 1;
 fi
 
 # install bat, the cat with wings
