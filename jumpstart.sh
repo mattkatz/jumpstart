@@ -219,13 +219,13 @@ if command -v entr >/dev/null 2>&1
 then
   green "huzzah, entr is installed"
 else
-  echo -e "installing entr locally"
+  red "installing entr locally"
   mkdir  $BASEDIR/entr-source
-  wget -qO- "http://www.entrproject.org/code/entr-4.1.tar.gz" | tar xvz -C $BASEDIR/entr-source
-  pushd $BASEDIR/entr-source/eradman-entr*
+  wget -qO- "http://eradman.com/entrproject/code/entr-4.6.tar.gz" | tar xvz -C $BASEDIR/entr-source
+  pushd $BASEDIR/entr-source/entr*
   ./configure
   make test
-  PREFIX=$HOME/.local make install
+  PREFIX=~/.local make install
   popd
   echo -e "cleaning up entr-source"
   rm -rf $BASEDIR/entr-source
