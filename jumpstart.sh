@@ -316,18 +316,19 @@ then
   echo "#THIS FILE IS RECREATED EVERY TIME JUMPSTART GETS RUN #" > $NPMZSH
   echo NPM_PACKAGES="$HOME/.npm-packages" >> $NPMZSH
   echo NODE_PATH=\"\$NPM_PACKAGES/lib/node_modules:\$NODE_PATH\" >> $NPMZSH
+  green "created npm.zsh"
   if grep $NPM_PACKAGES ~/.npmrc >/dev/null 2>&1
   then
     green "NPM_PACKAGES is in your .npmrc!"
   else
-    echo -e "Adding NPM_PACKAGES to your ~/.npmrc"
+    red "Adding NPM_PACKAGES to your ~/.npmrc"
     echo prefix=$HOME/.npm-packages >> ~/.npmrc
   fi
   if grep $NPM_PACKAGES ~/.oh-my-zsh/custom/paths.zsh >/dev/null 2>&1
   then
     green "NPM_PACKAGES/bin is in your paths!"
   else
-    echo -e "Adding NPM_PACKAGES/bin to your paths"
+    red "Adding NPM_PACKAGES/bin to your paths"
     echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
   fi
 else
