@@ -34,10 +34,12 @@ else
   exit 1
 fi
 
+
 #What OS are we on?
 if [[ "$OSTYPE" == "linux-gnu"* ]]
 then
   # we'll need to do some apt-get installs and such, eh?
+  green "looks like we are on linux, time to apt install"
 elif [[ "$OSTYPE" == "darwin"* ]]
 then
   # if on OSX we'll need to install homebrew
@@ -202,6 +204,25 @@ else
   echo -e "setting up safe ruby gem user installation"
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
+
+PY2USERBASE="$( python2 -m site --user-base )"
+if echo $PATH | grep -q $PY2USERBASE
+then
+  green "🐍🐍 py2 user bin is in path"
+else
+  red "adding the py2 bin paths"
+  echo "path+=$PY2USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
+fi
+
+PY3USERBASE="$( python3 -m site --user-base )"
+if echo $PATH | grep -q $PY3USERBASE
+then
+  green "🐍🐍🐍 py3 user bin is in path"
+else
+  red "adding the py3 bin paths"
+  echo "path+=$PY3USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
+fi
+
 
 if [ -z $EXPORTPATH ]
 then
