@@ -320,4 +320,11 @@ else
   echo -e "time to authenticate"
   gh auth login
 fi
+if command -v "python3 -m gitim --help" >/dev/null 2>&1
+then
+  green "gitim module is installed"
+else
+  echo -e "installing gitim!"
+  pip3 install --user git+https://github.com/muhasturk/gitim@master#egg=gitim
+fi
 
