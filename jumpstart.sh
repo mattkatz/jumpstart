@@ -308,4 +308,16 @@ fi
 
 # TODO: install fzf and use that as the fuzzy finder in vim instead of ctrlp
 # TODO: replace syntastic with ALE 
+if command -v gh >/dev/null 2>&1
+then
+  green "github cli is installed!"
+else
+  echo -e "Installing the github cli gh"
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  sudo apt update
+  sudo apt install gh
+  echo -e "time to authenticate"
+  gh auth login
+fi
 
