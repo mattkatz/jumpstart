@@ -390,7 +390,7 @@ else
   echo -e "time to authenticate"
   gh auth login
 fi
-if command -v "python3 -m gitim --help" >/dev/null 2>&1
+if pip3 freeze | grep gitim >/dev/null 2>&1
 then
   green "gitim module is installed"
 else
