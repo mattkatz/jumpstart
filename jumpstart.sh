@@ -19,9 +19,9 @@ red (){
     color $1 $RED
 }
 
-BASEDIR=$(dirname "$0")
+BASEDIR=${0:a:h}
 green "running from $BASEDIR"
-# echo -e "$GREEN Running from $BASEDIR $NC"
+
 
 # make sure to install python2, python3, vim, git, tmux, pipenv, wget, curl
 # if none of what we want is specified, we can exit 
@@ -33,12 +33,37 @@ else
   red "curl isn't installed, get that done!"
   exit 1
 fi
+
+
+#What OS are we on?
+if [[ "$OSTYPE" == "linux-gnu"* ]]
+then
+  # we'll need to do some apt-get installs and such, eh?
+  green "looks like we are on linux, time to apt install"
+elif [[ "$OSTYPE" == "darwin"* ]]
+then
+  # if on OSX we'll need to install homebrew
+  if command -v brew >/dev/null 2>&1
+  then
+    green "🍻 homebrew is installed"
+  else
+    red "time to install homebrew 🍺"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  fi
+fi
+
 if command -v wget >/dev/null 2>&1
 then
   green "wget is installed, sweet."
 else
-  red "whoa, wget isn't installed, get that done!"
-  exit 1
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    red "need to install wget, let's brew that"
+    brew install wget
+  else
+    red "whoa, wget isn't installed, get that done!"
+    exit 1
+  fi
 fi
 # Set up zsh by cloning oh-my-zsh
 if [ -d "$HOME/.oh-my-zsh" ]
@@ -66,7 +91,7 @@ if [ -e "$HOME/.gitignore" ]
 then
   green "Good, we have a user .gitgnore file"
 else
-  echo -e "link our gitignore file in"
+  red "need to link our gitignore file in"
   ln -s $BASEDIR/.gitignore ~/.gitignore
 fi
 
@@ -89,8 +114,15 @@ if command -v tmux >/dev/null 2>&1
 then
   green "Whoot, tmux is installed"
 else
-  red "Oh NO, please install tmux. Try:"
-  red "sudo apt-get install tmux"
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    red "No tmux?! lets brew that up"
+    brew install tmux
+    red "run jumpstart till it all goes green!"
+  else
+    red "Oh NO, please install tmux. Try:"
+    red "sudo apt-get install tmux"
+  fi
 fi
 if [ -d "$HOME/.tmux" ]
 then
@@ -145,22 +177,22 @@ else
 fi
 
 # add the .local/bin to the path
-if echo -e $PATH | grep -q .local/bin
+if echo -e $PATH | grep -q ~/.local/bin
 then
   green ".local/bin is on the path, whew!"
 else
-  echo -e "let's add .local/bin to the path"
+  red "let's add .local/bin to the path"
   echo "path+=~/.local/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
 
 # RUBY STUFF
 # is the local ruby gem directory on the path?
-if echo -e $PATH | grep -q .gem
+if echo -e $PATH | grep -q ~/.gem
 then
   green "local rubygems is on path!"
 else
-  echo -e "adding local rubygems to the path"
+  red "adding local rubygems to the path"
   echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
@@ -172,6 +204,25 @@ else
   echo -e "setting up safe ruby gem user installation"
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
+
+PY2USERBASE="$( python2 -m site --user-base )"
+if echo $PATH | grep -q $PY2USERBASE
+then
+  green "🐍🐍 py2 user bin is in path"
+else
+  red "adding the py2 bin paths"
+  echo "path+=$PY2USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
+fi
+
+PY3USERBASE="$( python3 -m site --user-base )"
+if echo $PATH | grep -q $PY3USERBASE
+then
+  green "🐍🐍🐍 py3 user bin is in path"
+else
+  red "adding the py3 bin paths"
+  echo "path+=$PY3USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
+fi
+
 
 if [ -z $EXPORTPATH ]
 then
@@ -189,13 +240,13 @@ if command -v entr >/dev/null 2>&1
 then
   green "huzzah, entr is installed"
 else
-  echo -e "installing entr locally"
+  red "installing entr locally"
   mkdir  $BASEDIR/entr-source
-  wget -qO- "http://www.entrproject.org/code/entr-4.1.tar.gz" | tar xvz -C $BASEDIR/entr-source
-  pushd $BASEDIR/entr-source/eradman-entr*
+  wget -qO- "http://eradman.com/entrproject/code/entr-4.6.tar.gz" | tar xvz -C $BASEDIR/entr-source
+  pushd $BASEDIR/entr-source/entr*
   ./configure
   make test
-  PREFIX=$HOME/.local make install
+  PREFIX=~/.local make install
   popd
   echo -e "cleaning up entr-source"
   rm -rf $BASEDIR/entr-source
@@ -263,7 +314,18 @@ then
 else
   echo -e "Installing rust"
   curl https://sh.rustup.rs -sSf | sh
-  source $HOME/.cargo/env
+fi
+
+# add the .cargo/bin to the path
+if echo -e $PATH | grep -q ~/.cargo/bin
+then
+  green ".cargo/bin is on the path, whew!"
+else
+  red "let's add .cargo/bin to the path"
+  echo "path+=~/.cargo/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
+  red "rerun jumpstart till everything is green"
+  red "and try launching a new zsh"
+  exit 1;
 fi
 
 # install bat, the cat with wings
@@ -286,23 +348,31 @@ then
   echo "#THIS FILE IS RECREATED EVERY TIME JUMPSTART GETS RUN #" > $NPMZSH
   echo NPM_PACKAGES="$HOME/.npm-packages" >> $NPMZSH
   echo NODE_PATH=\"\$NPM_PACKAGES/lib/node_modules:\$NODE_PATH\" >> $NPMZSH
+  green "created npm.zsh"
   if grep $NPM_PACKAGES ~/.npmrc >/dev/null 2>&1
   then
     green "NPM_PACKAGES is in your .npmrc!"
   else
-    echo -e "Adding NPM_PACKAGES to your ~/.npmrc"
+    red "Adding NPM_PACKAGES to your ~/.npmrc"
     echo prefix=$HOME/.npm-packages >> ~/.npmrc
   fi
   if grep $NPM_PACKAGES ~/.oh-my-zsh/custom/paths.zsh >/dev/null 2>&1
   then
     green "NPM_PACKAGES/bin is in your paths!"
   else
-    echo -e "Adding NPM_PACKAGES/bin to your paths"
+    red "Adding NPM_PACKAGES/bin to your paths"
     echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
   fi
 else
-  echo -e "You need to install node and npm"
-  echo -e "sudo apt install nodejs; sudo apt install npm"
+  red "need to install nodejs and npm"
+  if [[ "$OSTYPE" == "darwin"* ]]
+  then
+    brew install nodejs
+    brew install npm
+    red "rerun jumpstart till it all turns green!"
+  else
+    red "sudo apt install nodejs; sudo apt install npm"
+  fi
 fi
 
 
