@@ -23,7 +23,7 @@ BASEDIR=${0:a:h}
 green "running from $BASEDIR"
 
 
-# make sure to install python2, python3, vim, git, tmux, pipenv, wget, curl
+# make sure to install  python3, vim, git, tmux, pipenv, wget, curl
 # if none of what we want is specified, we can exit 
 # and kick something off for the appropriate package manager
 if command -v curl >/dev/null 2>&1
@@ -205,14 +205,6 @@ else
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
 
-PY2USERBASE="$( python2 -m site --user-base )"
-if echo $PATH | grep -q $PY2USERBASE
-then
-  green "🐍🐍 py2 user bin is in path"
-else
-  red "adding the py2 bin paths"
-  echo "path+=$PY2USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
-fi
 
 PY3USERBASE="$( python3 -m site --user-base )"
 if echo $PATH | grep -q $PY3USERBASE
