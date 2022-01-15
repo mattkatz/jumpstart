@@ -10,7 +10,9 @@ BASEDIR=$(dirname "$0")
 echo -e "$GREEN Running from $BASEDIR $NC"
 
 # make sure to install python2, python3, vim, git, tmux, wget, curl
-sudo apt-get install --assume-yes python python3 vim git tmux wget curl ruby
+sudo apt-get install --assume-yes python3 vim git tmux wget curl ruby
+echo -e "installing 🏄ag and ripgrep!"
+sudo apt-get install --assume-yes silversearcher-ag ripgrep
 # clean up anything we don't need
 sudo apt autoremove --assume-yes
 
