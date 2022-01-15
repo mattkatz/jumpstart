@@ -390,3 +390,11 @@ else
   pip3 install --user git+https://github.com/muhasturk/gitim@master#egg=gitim
 fi
 
+# poetry seems to be worth more investment than pipenv
+if command -v poetry >/dev/null 2>&1
+then
+  green "we have poetry in our system"
+else
+  echo -e "Installing Poetry"
+  curl -sSL https://install.python-poetry.org | python3 -
+fi
