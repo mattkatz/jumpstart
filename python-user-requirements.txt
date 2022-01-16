@@ -1,0 +1,26 @@
+# on setting up a new machine, I want the following installed 
+# pip3 install --user -r python-user-requirements.txt
+# better debugging
+pudb
+# doc generation
+sphinx
+mkdocs
+mkdocstrings
+# testing
+pytest
+# dependency management
+poetry
+pipenv
+# linting
+flake8
+pyflakes
+# init a project with bells and whistles attached
+cookiecutter
+# opinionated code formatting
+black
+# delightful top replacement
+glances
+# manage git commit hooks
+pre-commit
+# tons of dev tooling
+python-dev-tools
