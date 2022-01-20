@@ -422,12 +422,16 @@ else
     -p @themerdev/vim \
     -p @themerdev/wallpaper-burst \
     -p @themerdev/kitty \
+    -p @themerdev/firefox-color \
+    -p @themerdev/chrome \
     -p @themerdev/terminator \
     themer \
     -c @themerdev/colors-night-sky \
     -t @themerdev/vim \
     -t @themerdev/wallpaper-burst \
     -t @themerdev/kitty \
+    -t @themerdev/firefox-color \
+    -t @themerdev/chrome \
     -t @themerdev/terminator \
     -o ~/.themerdev
   echo -e "Now follow instrux in ~/.themerdev/README.md"
