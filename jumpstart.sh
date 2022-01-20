@@ -453,3 +453,5 @@ else
   echo -e "including the themer kitty theme🎨😸"
   echo 'include ${HOME}/.themerdev/kitty/themer-dark.conf' >> $KITTY_CONFIG
 fi
+
+gsettings set org.gnome.desktop.background picture-uri file://${HOME}/.themerdev/wallpaper-burst/themer-wallpaper-burst-dark-2880x1800.png
