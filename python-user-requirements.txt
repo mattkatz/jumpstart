@@ -24,3 +24,5 @@ glances
 pre-commit
 # tons of dev tooling
 python-dev-tools
+# watch and do things like entr, but py
+watchdog[watchmedo]
