@@ -134,10 +134,7 @@ else
   ln -s -f .tmux/.tmux.conf
   cp .tmux/.tmux.conf.local .
   echo -e "adding some more options to the local tmux.conf"
-  echo -e "set -g mode-mouse on" >> ~/.tmux.conf.local
-  echo -e "set -g mouse-resize-pane on" >> ~/.tmux.conf.local
-  echo -e "set -g mouse-select-pane on" >> ~/.tmux.conf.local
-  echo -e "set -g mouse-select-window on" >> ~/.tmux.conf.local
+  echo -e "set -g mouse on" >> ~/.tmux.conf.local
   green "Installed oh-my-tmux!"
 fi
 
@@ -459,3 +456,12 @@ else
 fi
 
 gsettings set org.gnome.desktop.background picture-uri file://${HOME}/.themerdev/wallpaper-burst/themer-wallpaper-burst-dark-2880x1800.png
+
+if grep -q "startup_session" $KITTY_CONFIG
+then
+  green "Rockin. We've got a startup_session configured for kitty"
+else
+  echo -e "setting up a startup session for kitty to start with tmux"
+  echo "cd ~\nlaunch tmux" > "$HOME/.config/kitty/tmux.session"
+  echo 'startup_session ${HOME}/.config/kitty/tmux.session' >> $KITTY_CONFIG
+fi
