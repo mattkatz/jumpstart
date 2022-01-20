@@ -188,7 +188,7 @@ fi
 
 # RUBY STUFF
 # is the local ruby gem directory on the path?
-if echo -e $PATH | grep -q ~/.gem
+if echo -e $PATH | grep -q .local/share/gem
 then
   green "local rubygems is on path!"
 else
