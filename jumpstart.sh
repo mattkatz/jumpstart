@@ -393,8 +393,20 @@ fi
 # poetry seems to be worth more investment than pipenv
 if command -v poetry >/dev/null 2>&1
 then
-  green "we have poetry in our system"
+  green "؎we have poetry in our system؎"
 else
   echo -e "Installing Poetry"
   curl -sSL https://install.python-poetry.org | python3 -
 fi
+
+# we like kitty
+if command -v kitty >/dev/null 2>&1
+then
+  green "Meow! 😸 kitty is installed and purring!"
+else
+  echo "installing kitty"
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+fi
+
+
+
