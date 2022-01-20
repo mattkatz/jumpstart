@@ -445,5 +445,11 @@ else
   echo -e "my .vimrc has a try catch to load themervim if it exists"
 fi
 
-
-
+KITTY_CONFIG="$HOME/.config/kitty/kitty.conf"
+if grep -q "themerdev" $KITTY_CONFIG
+then
+  green "🎨😸 Kitty is themed🎨😸"
+else
+  echo -e "including the themer kitty theme🎨😸"
+  echo 'include ${HOME}/.themerdev/kitty/themer-dark.conf' >> $KITTY_CONFIG
+fi
