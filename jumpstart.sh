@@ -409,4 +409,41 @@ else
 fi
 
 
+# let's get theming
+if command -v themer >/dev/null 2>&1
+then 
+  green "🎨themed up!🎨"
+else
+  echo -e "🎨using themer for sweet colors🎨"
+  # npm install themer
+  npx \
+    -p themer \
+    -p @themerdev/colors-night-sky \
+    -p @themerdev/vim \
+    -p @themerdev/wallpaper-burst \
+    -p @themerdev/kitty \
+    -p @themerdev/terminator \
+    themer \
+    -c @themerdev/colors-night-sky \
+    -t @themerdev/vim \
+    -t @themerdev/wallpaper-burst \
+    -t @themerdev/kitty \
+    -t @themerdev/terminator \
+    -o ~/.themerdev
+  echo -e "Now follow instrux in ~/.themerdev/README.md"
+fi
+
+THEMER_VIM_TARGET="$HOME/.vim/colors/ThemerVim.vim"
+echo -e "$THEMER_VIM_TARGET"
+if [ -L "$THEMER_VIM_TARGET" ]
+then
+  green "🎨Looks like Vim has the themer colors🎨"
+else
+  echo -e "🎨Installing Themer vim colors🎨"
+  # ln -s ~/.themerdev/vim/ThemerVim.vim ${THEMER_VIM_TARGET}
+  ln -s ~/.themerdev/vim/ThemerVim.vim ${THEMER_VIM_TARGET}
+  echo -e "my .vimrc has a try catch to load themervim if it exists"
+fi
+
+
 
