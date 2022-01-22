@@ -149,6 +149,9 @@ else
   echo -e "set -g @plugin 'tmux-plugins/tpm'" >> ~/.tmux.conf.local
   echo -e "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf.local
   echo -e "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf.local
+  echo -e "set -g @continuum-restore 'on'" >> ~/.tmux.conf.local
+  echo -e "set -g @continuum-save-interval '10'" >> ~/.tmux.conf.local
+  echo -e "set -g @continuum-boot 'on'" >> ~/.tmux.conf.local
   echo -e "# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)" >> ~/.tmux.conf.local
   echo -e "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf.local
   green "Installed tpm! type ctrl-a I to install your plugins"
