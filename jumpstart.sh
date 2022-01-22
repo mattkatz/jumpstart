@@ -135,6 +135,12 @@ else
   cp .tmux/.tmux.conf.local .
   echo -e "adding some more options to the local tmux.conf"
   echo -e "set -g mouse on" >> ~/.tmux.conf.local
+  echo -e "set-window-option -g mode-keys vi" >> ~/.tmux.conf.local
+  echo -e "bind-key -T copy-mode-vi v send -X begin-selection" >> ~/.tmux.conf.local
+  echo -e "bind-key -T copy-mode-vi V send -X select-line" >> ~/.tmux.conf.local
+  echo -e "bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'" >> ~/.tmux.conf.local
+  "
+
   green "Installed oh-my-tmux!"
 fi
 
