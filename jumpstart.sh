@@ -20,7 +20,7 @@ red (){
 }
 
 BASEDIR=${0:a:h}
-green "running from  -BASEDIR"
+green "running from  $BASEDIR"
 
 
 # make sure to install  python3, vim, git, tmux, pipenv, wget, curl
@@ -305,17 +305,6 @@ else
 fi
 
 
-# install pycharm to the bin
-if command -v pycharm >/dev/null 2>&1
-then
-  green "Noice, pycharm is installed"
-else
-  echo -e "installing pycharm"
-  wget https://download.jetbrains.com/python/pycharm-community-2018.2.4.tar.gz
-  tar -xzf pycharm-community-2018.2.4.tar.gz --directory ~/.local/bin/
-  rm pycharm-community-2018.2.4.tar.gz
-  ln ~/.local/bin/pycharm-community-2018.2.4/bin/pycharm.sh ~/.local/bin/pycharm
-fi
 
 # install Rust
 if command -v cargo >/dev/null 2>&1
@@ -414,7 +403,10 @@ then
   green "؎we have poetry in our system؎"
 else
   echo -e "Installing Poetry"
-  curl -sSL https://install.python-poetry.org | python3 -
+  curl -sSL https://install.python-poetry.org | POETRY_HOME=~/.local python3 -
+  red "rerun jumpstart to proceed"
+  exit
+
 fi
 
 # we like kitty
