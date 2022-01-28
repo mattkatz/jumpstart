@@ -403,9 +403,9 @@ then
   green "؎we have poetry in our system؎"
 else
   echo -e "Installing Poetry"
-  curl -sSL https://install.python-poetry.org | POETRY_HOME=~/.local python3 -
-  red "rerun jumpstart to proceed"
-  exit
+  curl -sSL https://install.python-poetry.org | python3 -
+  # red "rerun jumpstart to proceed"
+  # exit
 
 fi
 
