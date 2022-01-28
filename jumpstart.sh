@@ -20,7 +20,7 @@ red (){
 }
 
 BASEDIR=${0:a:h}
-green "running from $BASEDIR"
+green "running from  -BASEDIR"
 
 
 # make sure to install  python3, vim, git, tmux, pipenv, wget, curl
@@ -85,7 +85,7 @@ else
   ln -s ~/.vim/.vimrc ~/.vimrc
   echo -e "plugins should install on next launch of vim"
 fi
-
+green "checking the gitconfig"
 # add our gitignore
 if [ -e "$HOME/.gitignore" ]
 then
@@ -95,8 +95,21 @@ else
   ln -s $BASEDIR/.gitignore ~/.gitignore
 fi
 
-green  "making sure our gitignore is used by git!"
-git config --global core.excludesfile $HOME/.gitignore
+if grep -q "gitignore" ~/.gitconfig
+then 
+  green "the gitconfig is set to use our gitignore"
+else
+  echo -e  "making sure our gitignore is used by git!"
+  git config --global core.excludesfile $HOME/.gitignore
+fi
+
+if grep -q "defaultBranch" ~/.gitconfig
+then
+  green "the gitconfig is set to with a default branch"
+else
+  echo -e "making sure the gitconfig defaultBranch is main"
+  git config --global init.defaultBranch main
+fi
 
 if grep -q "gitignore.io" ~/.oh-my-zsh/custom/functions.zsh
 then
@@ -124,6 +137,7 @@ else
     red "sudo apt-get install tmux"
   fi
 fi
+
 if [ -d "$HOME/.tmux" ]
 then
   green "Excellent, oh-my-tmux is already setup"
@@ -139,8 +153,6 @@ else
   echo -e "bind-key -T copy-mode-vi v send -X begin-selection" >> ~/.tmux.conf.local
   echo -e "bind-key -T copy-mode-vi V send -X select-line" >> ~/.tmux.conf.local
   echo -e "bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'" >> ~/.tmux.conf.local
-  "
-
   green "Installed oh-my-tmux!"
 fi
 
@@ -474,3 +486,13 @@ else
   echo "cd ~\nlaunch tmux" > "$HOME/.config/kitty/tmux.session"
   echo 'startup_session ${HOME}/.config/kitty/tmux.session' >> $KITTY_CONFIG
 fi
+
+if command -v pipx >/dev/null 2>&1
+then
+  green "X gone pip it to ya. pipx is already installed"
+else
+  red "pipx isn't installed. Let's fix that"
+  python3 -m pip install --user pipx
+  python3 -m pipx ensurepath
+fi
+
