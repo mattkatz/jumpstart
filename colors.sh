@@ -2,12 +2,13 @@
 NC='\033[0m' # No Color
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\E[0;33m'
-BLACK='\E[0;47m'
-BLUE='\E[0;34m'
-MAGENTA='\E[0;35m'
-CYAN='\E[0;36m'
-WHITE='\E[0;37m'
+# YELLOW='\E[0;33m'
+YELLOW='\033[0;33m'
+BLACK='\033[0;47m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[0;37m'
 
 color(){
   if (( $# < 2 ))
