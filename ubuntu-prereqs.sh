@@ -16,6 +16,10 @@ sudo apt-get install --assume-yes \
   ca-certificates \
   gnupg \
   lsb-release
-# clean up anything we don't need
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+rm get-docker.sh
+
+green "clean up anything we don't need"
 sudo apt autoremove --assume-yes
 
