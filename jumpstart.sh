@@ -1,23 +1,6 @@
 #!/bin/zsh -i
 echo -e "lets use some colors"
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
-
-color(){
-  if (( $# < 2 ))
-  then
-    echo "need to call color() with a color and text";
-  else
-    echo -e "${2}$1${NC}";
-  fi
-}
-green(){
-    color $1 $GREEN
-}
-red (){
-    color $1 $RED
-}
+. ./colors.sh
 
 BASEDIR=${0:a:h}
 green "running from  $BASEDIR"
@@ -70,9 +53,9 @@ if [ -d "$HOME/.oh-my-zsh" ]
 then
   green "oh-my-zsh already exists!"
 else
-  echo -e "installing oh-my-zsh"
+  yellow "installing oh-my-zsh"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  echo -e "oh-my-zsh should be installed now"
+  green "oh-my-zsh should be installed now"
 fi
 
 # clone my vim config
@@ -80,10 +63,10 @@ if [ -d "$HOME/.vim" ]
 then
   green "vim config directory already exists"
 else
-  echo -e "Cloning my vim config"
+  yellow "Cloning my vim config"
   git clone https://github.com/mattkatz/.vim ~/.vim
   ln -s ~/.vim/.vimrc ~/.vimrc
-  echo -e "plugins should install on next launch of vim"
+  yellow "plugins should install on next launch of vim"
 fi
 green "checking the gitconfig"
 # add our gitignore
@@ -91,7 +74,7 @@ if [ -e "$HOME/.gitignore" ]
 then
   green "Good, we have a user .gitgnore file"
 else
-  red "need to link our gitignore file in"
+  yellow "need to link our gitignore file in"
   ln -s $BASEDIR/.gitignore ~/.gitignore
 fi
 
@@ -99,7 +82,7 @@ if grep -q "gitignore" ~/.gitconfig
 then 
   green "the gitconfig is set to use our gitignore"
 else
-  echo -e  "making sure our gitignore is used by git!"
+  yellow "making sure our gitignore is used by git!"
   git config --global core.excludesfile $HOME/.gitignore
 fi
 
@@ -107,7 +90,7 @@ if grep -q "defaultBranch" ~/.gitconfig
 then
   green "the gitconfig is set to with a default branch"
 else
-  echo -e "making sure the gitconfig defaultBranch is main"
+  yellow "making sure the gitconfig defaultBranch is main"
   git config --global init.defaultBranch main
 fi
 
@@ -116,8 +99,8 @@ then
   green "Oh, nice. There's a gi function defined for automatic gitignore file creation"
   green "gi vim,python >> .gitignore"
 else
-  echo -e "set up a gitignore function gi so that we can do project gitignore from cli"
-  echo -e "gi vim,python >> .gitignore"
+  yellow "set up a gitignore function gi so that we can do project gitignore from cli"
+  blue "gi vim,python >> .gitignore"
   echo "function gi() { curl -sLw "\n" https://www.gitignore.io/api/\$@ ;}" >> \
     ~/.oh-my-zsh/custom/functions.zsh && source ~/.zshrc
 fi
@@ -134,7 +117,8 @@ else
     red "run jumpstart till it all goes green!"
   else
     red "Oh NO, please install tmux. Try:"
-    red "sudo apt-get install tmux"
+    red "./ubuntu-prereqs.sh; ./jumpstart.sh"
+    exit 1
   fi
 fi
 
@@ -142,7 +126,7 @@ if [ -d "$HOME/.tmux" ]
 then
   green "Excellent, oh-my-tmux is already setup"
 else
-  echo -e "Installing oh-my-tmux"
+  yellow "Installing oh-my-tmux"
   pushd $HOME
   git clone https://github.com/gpakosz/.tmux.git
   ln -s -f .tmux/.tmux.conf
@@ -153,6 +137,7 @@ else
   echo -e "bind-key -T copy-mode-vi v send -X begin-selection" >> ~/.tmux.conf.local
   echo -e "bind-key -T copy-mode-vi V send -X select-line" >> ~/.tmux.conf.local
   echo -e "bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'" >> ~/.tmux.conf.local
+  popd
   green "Installed oh-my-tmux!"
 fi
 
@@ -161,7 +146,7 @@ if [ -d ~/.tmux/plugins/tpm ]
 then 
   green "Hexcellent, tmux plugin manager is already setup"
 else
-  echo -e "Installing tpm"
+  yellow "Installing tpm"
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   echo -e "# List of plugins" >> ~/tmux.conf.local
   echo -e "set -g @plugin 'tmux-plugins/tpm'" >> ~/.tmux.conf.local
@@ -182,7 +167,7 @@ if [ -d "$HOME/.local" ]
 then 
   green ".local exists"
 else
-  echo -e "making .local"
+  yellow "making .local"
   mkdir ~/.local
 fi
 
@@ -190,7 +175,7 @@ if [ -d "$HOME/.local/bin" ]
 then 
   green ".local/bin exists"
 else
-  echo -e "making .local/bin"
+  yellow "making .local/bin"
   mkdir ~/.local/bin
 fi
 
@@ -199,7 +184,7 @@ if echo -e $PATH | grep -q ~/.local/bin
 then
   green ".local/bin is on the path, whew!"
 else
-  red "let's add .local/bin to the path"
+  yellow "let's add .local/bin to the path"
   echo "path+=~/.local/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
@@ -210,7 +195,7 @@ if echo -e $PATH | grep -q .local/share/gem
 then
   green "local rubygems is on path!"
 else
-  red "adding local rubygems to the path"
+  yellow "adding local rubygems to the path"
   echo "path+=$(ruby -r rubygems -e 'puts Gem.user_dir')/bin" >> ~/.oh-my-zsh/custom/paths.zsh
   EXPORTPATH=1
 fi
@@ -219,7 +204,7 @@ if echo -e $GEM_HOME | grep -q $HOME;
 then
   green "ruby gems home is safely set to the user directory"
 else
-  echo -e "setting up safe ruby gem user installation"
+  yellow "setting up safe ruby gem user installation"
   echo "GEM_HOME=$(ruby -r rubygems -e 'puts Gem.user_dir')" >> ~/.oh-my-zsh/custom/ruby.zsh
 fi
 
@@ -229,7 +214,7 @@ if echo $PATH | grep -q $PY3USERBASE
 then
   green "🐍🐍🐍 py3 user bin is in path"
 else
-  red "adding the py3 bin paths"
+  yellow "adding the py3 bin paths"
   echo "path+=$PY3USERBASE/bin" >> ~/.oh-my-zsh/custom/paths.zsh
 fi
 
@@ -250,7 +235,7 @@ if command -v entr >/dev/null 2>&1
 then
   green "huzzah, entr is installed"
 else
-  red "installing entr locally"
+  yellow "installing entr locally"
   mkdir  $BASEDIR/entr-source
   wget -qO- "http://eradman.com/entrproject/code/entr-4.6.tar.gz" | tar xvz -C $BASEDIR/entr-source
   pushd $BASEDIR/entr-source/entr*
@@ -258,7 +243,7 @@ else
   make test
   PREFIX=~/.local make install
   popd
-  echo -e "cleaning up entr-source"
+  yellow "cleaning up entr-source"
   rm -rf $BASEDIR/entr-source
 fi
 
@@ -267,7 +252,7 @@ if command -v git-extras >/dev/null 2>&1
 then
   green "woop, git extras is installed"
 else
-  echo -e "installing git-extras locally"
+  yellow "installing git-extras locally"
   GES=$BASEDIR/git-extras-source
   mkdir $GES
   pushd $GES
@@ -287,7 +272,7 @@ if type z >/dev/null 2>&1
 then
   green "Z is installed, jump around"
 else
-  echo -e "installing z to jump around"
+  yellow "installing z to jump around"
   git clone https://github.com/rupa/z
   cp z/z.sh $BINDIR/.
   echo ". ~/.local/bin/z.sh" > ~/.oh-my-zsh/custom/z.zsh
@@ -297,7 +282,7 @@ fi
 # do we have VIM set as editor?
 if [ -z "$EDITOR" ] 
 then
-  echo "Need to set vim as the editor"
+  yellow "Need to set vim as the editor"
   echo "export EDITOR='vim'" >> ~/.oh-my-zsh/custom/settings.zsh
   source ~/.oh-my-zsh/custom/settings.zsh
 else
@@ -311,7 +296,7 @@ if command -v cargo >/dev/null 2>&1
 then
   green "This system is rusty"
 else
-  echo -e "Installing rust"
+  yellow "Installing rust"
   curl https://sh.rustup.rs -sSf | sh
 fi
 
@@ -320,10 +305,10 @@ if echo -e $PATH | grep -q ~/.cargo/bin
 then
   green ".cargo/bin is on the path, whew!"
 else
-  red "let's add .cargo/bin to the path"
+  yellow "let's add .cargo/bin to the path"
   echo "path+=~/.cargo/bin/" >> ~/.oh-my-zsh/custom/paths.zsh
-  red "rerun jumpstart till everything is green"
-  red "and try launching a new zsh"
+  yellow "rerun jumpstart till everything is green"
+  yellow "and try launching a new zsh"
   exit 1;
 fi
 
@@ -332,7 +317,7 @@ if type bat >/dev/null 2>&1
 then
   green "🦇BAT EVERYWHERE🦇"
 else
-  echo -e "instaling bat"
+  yellow "instaling bat"
   cargo install bat
 fi
 
@@ -352,14 +337,14 @@ then
   then
     green "NPM_PACKAGES is in your .npmrc!"
   else
-    red "Adding NPM_PACKAGES to your ~/.npmrc"
+    yellow "Adding NPM_PACKAGES to your ~/.npmrc"
     echo prefix=$HOME/.npm-packages >> ~/.npmrc
   fi
   if grep $NPM_PACKAGES ~/.oh-my-zsh/custom/paths.zsh >/dev/null 2>&1
   then
     green "NPM_PACKAGES/bin is in your paths!"
   else
-    red "Adding NPM_PACKAGES/bin to your paths"
+    yellow "Adding NPM_PACKAGES/bin to your paths"
     echo path+=$NPM_PACKAGES/bin >> ~/.oh-my-zsh/custom/paths.zsh
   fi
 else
@@ -369,8 +354,10 @@ else
     brew install nodejs
     brew install npm
     red "rerun jumpstart till it all turns green!"
+    exit 1
   else
-    red "sudo apt install nodejs; sudo apt install npm"
+    red "sudo apt install nodejs; sudo apt install npm; ./jumpstart.sh"
+    exit 1
   fi
 fi
 
@@ -381,19 +368,19 @@ if command -v gh >/dev/null 2>&1
 then
   green "github cli is installed!"
 else
-  echo -e "Installing the github cli gh"
+  yellow "Installing the github cli gh"
   curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
   sudo apt update
   sudo apt install gh
-  echo -e "time to authenticate"
+  yellow "time to authenticate"
   gh auth login
 fi
 if pip3 freeze | grep gitim >/dev/null 2>&1
 then
   green "gitim module is installed"
 else
-  echo -e "installing gitim!"
+  yellow "installing gitim!"
   pip3 install --user git+https://github.com/muhasturk/gitim@master#egg=gitim
 fi
 
@@ -402,11 +389,8 @@ if command -v poetry >/dev/null 2>&1
 then
   green "؎we have poetry in our system؎"
 else
-  echo -e "Installing Poetry"
+  yellow "Installing Poetry"
   curl -sSL https://install.python-poetry.org | python3 -
-  # red "rerun jumpstart to proceed"
-  # exit
-
 fi
 
 # we like kitty
@@ -414,7 +398,7 @@ if command -v kitty >/dev/null 2>&1
 then
   green "Meow! 😸 kitty is installed and purring!"
 else
-  echo "installing kitty"
+  yellow "installing kitty"
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 fi
 
@@ -424,7 +408,7 @@ if command -v themer >/dev/null 2>&1
 then 
   green "🎨themed up!🎨"
 else
-  echo -e "🎨using themer for sweet colors🎨"
+  yellow "🎨using themer for sweet colors🎨"
   # npm install themer
   npx \
     -p themer \
@@ -453,10 +437,10 @@ if [ -L "$THEMER_VIM_TARGET" ]
 then
   green "🎨Looks like Vim has the themer colors🎨"
 else
-  echo -e "🎨Installing Themer vim colors🎨"
+  yellow "🎨Installing Themer vim colors🎨"
   # ln -s ~/.themerdev/vim/ThemerVim.vim ${THEMER_VIM_TARGET}
   ln -s ~/.themerdev/vim/ThemerVim.vim ${THEMER_VIM_TARGET}
-  echo -e "my .vimrc has a try catch to load themervim if it exists"
+  yellow "my .vimrc has a try catch to load themervim if it exists"
 fi
 
 KITTY_CONFIG="$HOME/.config/kitty/kitty.conf"
@@ -464,7 +448,7 @@ if grep -q "themerdev" $KITTY_CONFIG
 then
   green "🎨😸 Kitty is themed🎨😸"
 else
-  echo -e "including the themer kitty theme🎨😸"
+  yellow "including the themer kitty theme🎨😸"
   echo 'include ${HOME}/.themerdev/kitty/themer-dark.conf' >> $KITTY_CONFIG
 fi
 
@@ -474,7 +458,7 @@ if grep -q "startup_session" $KITTY_CONFIG
 then
   green "Rockin. We've got a startup_session configured for kitty"
 else
-  echo -e "setting up a startup session for kitty to start with tmux"
+  yellow "setting up a startup session for kitty to start with tmux"
   echo "cd ~\nlaunch tmux" > "$HOME/.config/kitty/tmux.session"
   echo 'startup_session ${HOME}/.config/kitty/tmux.session' >> $KITTY_CONFIG
 fi
@@ -483,7 +467,7 @@ if command -v pipx >/dev/null 2>&1
 then
   green "X gone pip it to ya. pipx is already installed"
 else
-  red "pipx isn't installed. Let's fix that"
+  yellow "pipx isn't installed. Let's fix that"
   python3 -m pip install --user pipx
   python3 -m pipx ensurepath
 fi
