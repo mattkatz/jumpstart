@@ -472,3 +472,23 @@ else
   python3 -m pipx ensurepath
 fi
 
+if command -v brew >/dev/null 2>&1
+then 
+  green "ahhhh, brew is installed"
+else
+  yellow "lets set up our homebrew"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  yellow "make sure we've got homebrew in the path"
+  echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.zprofile
+  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+  yellow "might as well install gcc first"
+  brew install gcc
+fi
+
+if command -v gping >/dev/null 2>&1
+then
+  green "gping is in the toolkit"
+else
+  yellow "installing gping for ping graphing"
+  brew install gping
+fi
