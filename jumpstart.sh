@@ -494,4 +494,57 @@ else
 fi
 
 # add a git gone alias
+# delete closed or merged branches
 git config --global alias.gone "! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '\$2 == \"[gone]\" {print \$1}' | xargs -r git branch -D"
+
+# zeal is a gui offline docs browser
+if command -v zeal >/dev/null 2>&1
+then
+  green "Zeal is already installed. You can search docs offline"
+else
+  yellow "need to install Zeal"
+  sudo apt-get install zeal
+fi
+
+# dasht is an offline docs browser like zeal or dash in the terminal
+if command -v dasht >/dev/null 2>&1
+then
+  green "dasht is installed! dasht is availabale for offline dev docs"
+else
+  yellow "installing dasht for offline docs"
+  brew install dasht
+fi
+# set dasht to point at zeal dir
+if [[ -v DASHT_DOCSETS_DIR ]]
+then
+  green "dasht will use same docset dir as zeal"
+else
+  yellow "setting the dasht docset dir to be zeal dir"
+  echo "DASHT_DOCSETS_DIR=~/.local/share/Zeal/Zeal/docsets" > ~/.oh-my-zsh/custom/dasht.zsh
+fi
+
+if [[ -f ~/.oh-my-zsh/custom/dasht-completions.zsh ]]
+then
+  green "looks like dasht completetions are all set up"
+else
+  yellow "setting up dasht completions"
+  yellow "check to see if https://github.com/sunaku/dasht/issues/57 is resolved"
+  mkdir dashtcompletions
+  pushd dashtcompletions
+  git init
+  git remote add -f origin git@github.com:sunaku/dasht.git
+  git config core.sparsecheckout true
+  echo "etc/zsh/" >> .git/info/sparse-checkout
+  git pull origin master
+  pushd etc/zsh/
+  cp -R * ~/.oh-my-zsh/custom
+  popd
+  mv ~/.oh-my-zsh/custom/completions.zsh ~/.oh-my-zsh/custom/dasht-completions.zsh
+  popd
+  echo ". ~/.oh-my-zsh/custom/dasht-completions.zsh" > ~/.oh-my-zsh/custom/dasht.zsh
+  yellow "set up the completions, should be live on the next shell start"
+  rm -rf dashtcompletions
+fi
+
+
+
