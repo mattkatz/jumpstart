@@ -23,6 +23,18 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]
 then
   # we'll need to do some apt-get installs and such, eh?
   green "looks like we are on linux, time to apt install"
+  if command -v brew >/dev/null 2>&1
+  then 
+    green "ahhhh, brew is installed"
+  else
+    yellow "lets set up our homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    yellow "make sure we've got homebrew in the path"
+    echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.zprofile
+    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+    yellow "might as well install gcc first"
+    brew install gcc
+  fi
 elif [[ "$OSTYPE" == "darwin"* ]]
 then
   # if on OSX we'll need to install homebrew
@@ -472,18 +484,6 @@ else
   python3 -m pipx ensurepath
 fi
 
-if command -v brew >/dev/null 2>&1
-then 
-  green "ahhhh, brew is installed"
-else
-  yellow "lets set up our homebrew"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  yellow "make sure we've got homebrew in the path"
-  echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.zprofile
-  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-  yellow "might as well install gcc first"
-  brew install gcc
-fi
 
 if command -v gping >/dev/null 2>&1
 then
