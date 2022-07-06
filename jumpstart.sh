@@ -520,7 +520,7 @@ then
   green "dasht will use same docset dir as zeal"
 else
   yellow "setting the dasht docset dir to be zeal dir"
-  echo "DASHT_DOCSETS_DIR=~/.local/share/Zeal/Zeal/docsets" > ~/.oh-my-zsh/custom/dasht.zsh
+  echo "export DASHT_DOCSETS_DIR=~/.local/share/Zeal/Zeal/docsets" > ~/.oh-my-zsh/custom/dasht.zsh
 fi
 
 if [[ -f ~/.oh-my-zsh/custom/dasht-completions.zsh ]]
@@ -541,7 +541,7 @@ else
   popd
   mv ~/.oh-my-zsh/custom/completions.zsh ~/.oh-my-zsh/custom/dasht-completions.zsh
   popd
-  echo ". ~/.oh-my-zsh/custom/dasht-completions.zsh" > ~/.oh-my-zsh/custom/dasht.zsh
+  echo ". ~/.oh-my-zsh/custom/dasht-completions.zsh" >> ~/.oh-my-zsh/custom/dasht.zsh
   yellow "set up the completions, should be live on the next shell start"
   rm -rf dashtcompletions
 fi
