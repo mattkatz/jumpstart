@@ -555,3 +555,11 @@ else
   cargo install tokei
 fi
 
+if command -v dust >/dev/null 2>&1
+then
+  green "✧･ﾟ: *✧･ﾟ:*dust is installed! What is lurking in your disk?*:･ﾟ✧*:･ﾟ✧"
+else
+  yellow "installing dust for disk analysis"
+  cargo install du-dust
+
+fi
