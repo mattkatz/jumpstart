@@ -547,4 +547,11 @@ else
 fi
 
 
+if command -v tokei >/dev/null 2>&1
+then
+  green "tokei is installed! Ready to analyze code super duper fast"
+else
+  yellow "installing tokei for fast code analysis"
+  cargo install tokei
+fi
 
