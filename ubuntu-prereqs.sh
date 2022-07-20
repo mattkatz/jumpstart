@@ -30,6 +30,9 @@ else
   rm get-docker.sh
 fi
 
+green "simple screen recorder"
+sudo apt-get install --assume-yes simplescreenrecorder
+
 
 
 green "clean up anything we don't need"
