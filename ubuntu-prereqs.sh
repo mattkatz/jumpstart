@@ -19,10 +19,16 @@ sudo apt-get install --assume-yes \
 
 green "homebrew prerequisites"
 sudo apt-get install --assume-yes build-essential procps file 
+
 green "installing docker"
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-rm get-docker.sh
+if command -v docker >/dev/null 2>&1
+then
+  green "docker already installed"
+else
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sh get-docker.sh
+  rm get-docker.sh
+fi
 
 
 
