@@ -33,6 +33,19 @@ fi
 green "simple screen recorder"
 sudo apt-get install --assume-yes simplescreenrecorder
 
+green "set up apache"
+sudo apt-get install --assume-yes apache2 
+green "set up userdir"
+sudo a2enmod userdir
+green "restart apache"
+sudo systemctl restart apache2
+mkdir -p ~/public_html/
+chmod 711 ~
+yellow "please run: ln -s ~/Public/ ~/public_html/files"
+yellow "For some reason it doesn't execute in the script"
+ln -s ~/Public/ ~/public_html/files
+
+
 
 
 green "clean up anything we don't need"
