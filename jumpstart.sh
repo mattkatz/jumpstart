@@ -368,6 +368,8 @@ else
     red "rerun jumpstart till it all turns green!"
     exit 1
   else
+    red "Lets get the most recent version of nodejs available"
+    red "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -"
     red "sudo apt install nodejs; sudo apt install npm; ./jumpstart.sh"
     exit 1
   fi
