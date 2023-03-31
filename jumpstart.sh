@@ -30,8 +30,8 @@ then
     yellow "lets set up our homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     yellow "make sure we've got homebrew in the path"
-    echo 'eval "$(~/.linuxbrew/bin/brew shellenv)"' >> ~/.zprofile
-    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.oh-my-zsh/custom/brew.zsh
+    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     yellow "might as well install gcc first"
     brew install gcc
   fi
