@@ -591,3 +591,12 @@ else
 }
 endmsg
 fi
+
+if command -v go >/dev/null 2>&1
+then
+  green "go is ready to gopher"
+else
+  yellow "getting go using brew"
+  brew install go
+fi
+
