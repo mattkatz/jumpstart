@@ -418,7 +418,7 @@ fi
 
 
 # let's get theming
-if command -v themer >/dev/null 2>&1
+if [[ -d ~/.themerdev ]]
 then 
   green "🎨themed up!🎨"
 else
@@ -446,7 +446,6 @@ else
 fi
 
 THEMER_VIM_TARGET="$HOME/.vim/colors/ThemerVim.vim"
-echo -e "$THEMER_VIM_TARGET"
 if [ -L "$THEMER_VIM_TARGET" ]
 then
   green "🎨Looks like Vim has the themer colors🎨"
