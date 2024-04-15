@@ -1,3 +1,10 @@
+1.0.9 / 2024-04-14
+==================
+
+  * start keeping a changelog again!
+  * added dust, tokei, yazi
+  * remove pycharm
+
 
 1.0.8 / 2020-07-08
 ==================

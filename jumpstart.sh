@@ -565,3 +565,30 @@ else
   cargo install du-dust
 
 fi
+
+
+if command -v yazi >/dev/null 2>&1
+then
+  green "🦆yazi is installed! should be super fast to yy around, eh?🦆"
+else
+  yellow "installing yazi for fast file manager action"
+  cargo install --locked yazi-fm
+fi
+
+if [[ -f ~/.oh-my-zsh/custom/yazi.zsh ]]
+then
+  green "looks like yy is set up for yazi"
+else
+  yellow "lets set up the yy function"
+  yellow "will need to re-load zsh"
+  cat > ~/.oh-my-zsh/custom/yazi.zsh <<'endmsg'
+  function yy() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+  cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+endmsg
+fi
