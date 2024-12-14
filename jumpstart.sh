@@ -600,3 +600,10 @@ else
   brew install go
 fi
 
+if command -v aerc >/dev/null 2>&1
+then
+  green "📧 aerc is installed happy terminal mailing 📧"
+else
+  yellow "installing aerc for 📧"
+  brew install aerc
+fi
