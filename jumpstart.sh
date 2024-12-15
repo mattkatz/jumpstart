@@ -333,6 +333,15 @@ else
   cargo install bat
 fi
 
+# install zellij, tmux but discoverable
+if type zellij >/dev/null 2>&1
+then
+  green "((((((ZELLIJ ENGAGED))))))"
+else
+  yellow "instaling zellij for a better screen experience"
+  cargo install --locked zellij
+fi
+
 # check to see if we have node and npm installed
 if npm -v >/dev/null 2>&1
 then
